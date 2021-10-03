@@ -39,7 +39,7 @@ const shuffleArray = (array) => {
   return newArray;
 };
 
-const generateAdvert = (data) => {
+const getAdvert = (data) => {
   const minImageNumber = INTEGERS.one;
   const maxImageNumber = INTEGERS.ten;
 
@@ -99,4 +99,14 @@ const generateAdvert = (data) => {
   }
 };
 
-generateAdvert(appartment);
+const generatePins = (cb, data, amount) => {
+  const pins = [];
+
+  for (let i = 0; i < amount; i++) {
+    pins.push(cb(data));
+  }
+
+  return pins;
+};
+
+generatePins(getAdvert, appartment, PINS_COUNT);
