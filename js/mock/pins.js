@@ -49,10 +49,8 @@ const generateAdvertisment = () => {
   const randomPrice = utils.getRandomIntegerFromRange(Prices.MIN, Prices.MAX);
   const randomRoomsNumber = utils.getRandomIntegerFromRange(Rooms.MIN, Rooms.MAX);
   const randomGuestsNumber = utils.getRandomIntegerFromRange(Guests.MIN, Guests.MAX);
-  const randomFeaturesIndex = utils.getRandomIntegerFromRange(0, appartment.features.length - 1);
-  const randomFeatures = utils.getArrayFromAnother(appartment.features).slice(randomFeaturesIndex);
-  const randomPhotosIndex = utils.getRandomIntegerFromRange(0, appartment.photos.length - 1);
-  const randomPhotos = utils.getArrayFromAnother(appartment.photos).slice(randomPhotosIndex);
+  const randomFeatures = utils.getRandomShuffledArray(appartment.features);
+  const randomPhotos = utils.getRandomShuffledArray(appartment.photos);
   const randomLatitude = utils.getRandomIntegerFromRange(Locations.LATITUDE_START, Locations.LATITUDE_END, Locations.PRECISION);
   const randomLongitude = utils.getRandomIntegerFromRange(Locations.LONGITUDE_START, Locations.LONGITUDE_END, Locations.PRECISION);
 
@@ -79,7 +77,6 @@ const generateAdvertisment = () => {
     },
   };
 };
-
 
 const generatePins = (count) => [...Array(count)].map(generateAdvertisment);
 

@@ -8,19 +8,20 @@ const getRandomIntegerFromRange = (min, max, digits = 0) => {
 
 const getFormattedInteger = (number) => number < 10 ? `0${number}` : number;
 
-const getArrayFromAnother = (array) => {
+const getRandomShuffledArray = (array) => {
   const newArray = array.slice();
+  const randomIndex = getRandomIntegerFromRange(0, array.length - 1);
 
   for (let i = newArray.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
   }
 
-  return newArray;
+  return newArray.slice(randomIndex);
 };
 
 export {
   getRandomIntegerFromRange,
   getFormattedInteger,
-  getArrayFromAnother
+  getRandomShuffledArray
 };
