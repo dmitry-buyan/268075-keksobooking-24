@@ -1,6 +1,4 @@
-import * as utils from 'utils.js';
-
-const PINS_COUNT = 10;
+import { getRandomIntegerFromRange, getFormattedInteger, getRandomShuffledArray } from './utils.js';
 
 const Prices = {
   MIN: 1000,
@@ -42,24 +40,24 @@ const appartment = {
 };
 
 const generateAdvertisment = () => {
-  const randomImageNumber = utils.getFormattedInteger(utils.getRandomIntegerFromRange(ImageNumbers.MIN, ImageNumbers.MAX));
-  const randomTypesIndex = utils.getRandomIntegerFromRange(0, appartment.types.length - 1);
-  const randomCheckin = utils.getRandomIntegerFromRange(0, appartment.times.length - 1);
-  const randomCheckout = utils.getRandomIntegerFromRange(0, appartment.times.length - 1);
-  const randomPrice = utils.getRandomIntegerFromRange(Prices.MIN, Prices.MAX);
-  const randomRoomsNumber = utils.getRandomIntegerFromRange(Rooms.MIN, Rooms.MAX);
-  const randomGuestsNumber = utils.getRandomIntegerFromRange(Guests.MIN, Guests.MAX);
-  const randomFeatures = utils.getRandomShuffledArray(appartment.features);
-  const randomPhotos = utils.getRandomShuffledArray(appartment.photos);
-  const randomLatitude = utils.getRandomIntegerFromRange(Locations.LATITUDE_START, Locations.LATITUDE_END, Locations.PRECISION);
-  const randomLongitude = utils.getRandomIntegerFromRange(Locations.LONGITUDE_START, Locations.LONGITUDE_END, Locations.PRECISION);
+  const randomImageNumber = getFormattedInteger(getRandomIntegerFromRange(ImageNumbers.MIN, ImageNumbers.MAX));
+  const randomTypesIndex = getRandomIntegerFromRange(0, appartment.types.length - 1);
+  const randomCheckin = getRandomIntegerFromRange(0, appartment.times.length - 1);
+  const randomCheckout = getRandomIntegerFromRange(0, appartment.times.length - 1);
+  const randomPrice = getRandomIntegerFromRange(Prices.MIN, Prices.MAX);
+  const randomRoomsNumber = getRandomIntegerFromRange(Rooms.MIN, Rooms.MAX);
+  const randomGuestsNumber = getRandomIntegerFromRange(Guests.MIN, Guests.MAX);
+  const randomFeatures = getRandomShuffledArray(appartment.features);
+  const randomPhotos = getRandomShuffledArray(appartment.photos);
+  const randomLatitude = getRandomIntegerFromRange(Locations.LATITUDE_START, Locations.LATITUDE_END, Locations.PRECISION);
+  const randomLongitude = getRandomIntegerFromRange(Locations.LONGITUDE_START, Locations.LONGITUDE_END, Locations.PRECISION);
 
   return {
     author: {
       avatar: `img/avatars/user${randomImageNumber}.png`,
     },
     offer: {
-      title: `Title ${utils.getRandomIntegerFromRange(1, 10)}`,
+      title: `Title ${getRandomIntegerFromRange(1, 10)}`,
       address: `${randomLatitude} ${randomLongitude}`,
       price: randomPrice,
       type: appartment.types[randomTypesIndex],
@@ -80,4 +78,4 @@ const generateAdvertisment = () => {
 
 const generatePins = (count) => [...Array(count)].map(generateAdvertisment);
 
-export {PINS_COUNT, generatePins};
+export { generatePins };
