@@ -68,16 +68,67 @@ const renderCard = (data) => {
 
   const { author, offer } = data;
 
-  cardElement.querySelector('.popup__avatar').src = author.avatar;
-  cardElement.querySelector('.popup__title').textContent = offer.title;
-  cardElement.querySelector('.popup__text--address').textContent = offer.address;
-  cardElement.querySelector('.popup__text--price').innerHTML = `${offer.price} <span>${TextLines.PRICE}</span>`;
-  cardElement.querySelector('.popup__type').textContent = housingTypeTranslation[offer.type];
-  cardElement.querySelector('.popup__text--capacity').textContent = `${offer.rooms} ${TextLines.ROOMS} ${offer.guests} ${TextLines.GUESTS}`;
-  cardElement.querySelector('.popup__text--time').textContent = `${TextLines.CHECKIN} ${offer.checkin}, ${TextLines.CHECKOUT} ${offer.checkout}`;
-  cardElement.querySelector('.popup__description').textContent = offer.description;
-  cardElement.querySelector('.popup__features').innerHTML = renderFeatures(offer.features);
-  cardElement.querySelector('.popup__photos').innerHTML = renderPhotos(offer.photos);
+  const isData = (item) => item && item.length > 0;
+
+  if (!isData(author.avatar)) {
+    cardElement.querySelector('.popup__avatar').remove();
+  } else {
+    cardElement.querySelector('.popup__avatar').src = author.avatar;
+  }
+
+  if (!isData(offer.title)) {
+    cardElement.querySelector('.popup__title').remove();
+  } else {
+    cardElement.querySelector('.popup__title').textContent = offer.title;
+  }
+
+  if (!isData(offer.address)) {
+    cardElement.querySelector('.popup__text--address').remove();
+  } else {
+    cardElement.querySelector('.popup__text--address').textContent = offer.address;
+  }
+
+  if (!isData(offer.price)) {
+    cardElement.querySelector('.popup__text--price').remove();
+  } else {
+    cardElement.querySelector('.popup__text--price').innerHTML = `${offer.price} <span>${TextLines.PRICE}</span>`;
+  }
+
+  if (!isData(offer.type)) {
+    cardElement.querySelector('.popup__type').remove();
+  } else {
+    cardElement.querySelector('.popup__type').textContent = housingTypeTranslation[offer.type];
+  }
+
+  if (!isData(offer.rooms) || !isData(offer.guests)) {
+    cardElement.querySelector('.popup__text--capacity').remove();
+  } else {
+    cardElement.querySelector('.popup__text--capacity').textContent = `${offer.rooms} ${TextLines.ROOMS} ${offer.guests} ${TextLines.GUESTS}`;
+  }
+
+  if (!isData(offer.checkin) || !isData(offer.checkout)) {
+    cardElement.querySelector('.popup__text--time').remove();
+  } else {
+    cardElement.querySelector('.popup__text--time').textContent = `${TextLines.CHECKIN} ${offer.checkin}, ${TextLines.CHECKOUT} ${offer.checkout}`;
+  }
+
+  if (!isData(offer.description)) {
+    cardElement.querySelector('.popup__description').remove();
+  } else {
+    cardElement.querySelector('.popup__description').textContent = offer.description;
+  }
+
+  if (!isData(offer.features)) {
+    cardElement.querySelector('.popup__features').remove();
+  } else {
+    cardElement.querySelector('.popup__features').innerHTML = renderFeatures(offer.features);
+  }
+
+  if (!isData(offer.photos)) {
+    cardElement.querySelector('.popup__photos').remove();
+  } else {
+    cardElement.querySelector('.popup__photos').innerHTML = renderPhotos(offer.photos);
+  }
 
   fragment.appendChild(cardElement);
 
