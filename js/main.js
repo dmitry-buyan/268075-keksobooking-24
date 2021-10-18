@@ -1,3 +1,6 @@
-import {PINS_COUNT, generatePins } from './mock/pins.js';
+import { generatePins } from './mock/pins.js';
+import { renderCard } from './card.js';
 
-generatePins(PINS_COUNT);
+const PINS_COUNT = 10;
+
+renderCard(generatePins(PINS_COUNT)[0]);
