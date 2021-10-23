@@ -1,11 +1,9 @@
-const PHOTO = {
-  width: '45px',
-  height: '40px',
-  altText: 'Фотография жилья',
-  className: 'popup__photo',
+const Photos = {
+  WIDTH: '45px',
+  HEIGHT: '40px',
+  ALT: 'Фотография жилья',
+  CLASSNAME: 'popup__photo',
 };
-
-const FEATURE_CLASS_NAME = 'popup__feature';
 
 const TextLines = {
   PRICE: '₽/ночь',
@@ -26,22 +24,30 @@ const housingTypeTranslation = {
 const map = document.querySelector('#map-canvas');
 const popup = document.querySelector('#card').content.querySelector('.popup');
 
+/**
+ * Render features
+ * @param {Array} features
+ * @returns innerHTML of features container
+ */
+
 const renderFeatures = (features) => {
   const featuresContainer = popup.querySelector('.popup__features');
   const featuresList = featuresContainer.querySelectorAll('.popup__feature');
 
   featuresList.forEach((featureItem) => {
-    const isFeatureAvailable = features.some((feature) => featureItem.classList.contains(`${FEATURE_CLASS_NAME}--${feature}`));
-
-    if (!isFeatureAvailable) {
-      featureItem.remove();
-    }
+    const isFeatureAvailable = features.some((feature) => featureItem.classList.contains(`popup__feature--${feature}`));
 
     isFeatureAvailable ? true : featureItem.remove();
   });
 
   return featuresContainer.innerHTML;
 };
+
+/**
+ * Render photos
+ * @param {Array} photos
+ * @returns innerHTML of photos container
+ */
 
 const renderPhotos = (photos) => {
   const photosContainer = popup.querySelector('.popup__photos');
@@ -51,10 +57,10 @@ const renderPhotos = (photos) => {
   photos.forEach((image) => {
     const imageElement = document.createElement('img');
     imageElement.src = image;
-    imageElement.classList.add(PHOTO.className);
-    imageElement.style.width = PHOTO.width;
-    imageElement.style.height = PHOTO.height;
-    imageElement.alt = PHOTO.altText;
+    imageElement.classList.add(Photos.CLASSNAME);
+    imageElement.style.width = Photos.WIDTH;
+    imageElement.style.height = Photos.HEIGHT;
+    imageElement.alt = Photos.ALT;
     fragment.append(imageElement);
   });
 
@@ -63,10 +69,14 @@ const renderPhotos = (photos) => {
   return photosContainer.innerHTML;
 };
 
-const renderCard = (data) => {
-  const fragment = document.createDocumentFragment();
+/**
+ * Render one card
+ * @param {Object} - destructured object
+ * append card element into map
+ */
+
+const renderCard = ({author, offer}) => {
   const cardElement = popup.cloneNode(true);
-  const { author, offer } = data;
 
   cardElement.querySelector('.popup__avatar').src = author.avatar;
   cardElement.querySelector('.popup__title').textContent = offer.title;
@@ -79,8 +89,7 @@ const renderCard = (data) => {
   cardElement.querySelector('.popup__description').textContent = offer.description;
   cardElement.querySelector('.popup__photos').innerHTML = renderPhotos(offer.photos);
 
-  fragment.append(cardElement);
-  map.append(fragment);
+  map.append(cardElement);
 };
 
 export { renderCard };
