@@ -1,9 +1,9 @@
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
-const MIN_PRICE = 0;
+const MIN_PRICE = 5000;
 const MAX_PRICE = 1000000;
-const MIN_ROOMS = '0';
-const MAX_ROOMS = '100';
+const MIN_ROOMS = 0;
+const MAX_ROOMS = 100;
 
 const adForm = document.querySelector('.ad-form');
 const filterForm = document.querySelector('.map__filters');
@@ -86,11 +86,11 @@ const guestsNumberSelect = adForm.querySelector('#capacity');
  */
 
 const onRoomsChange = () => {
-  if (roomsNumberSelect.value === MAX_ROOMS && guestsNumberSelect.value !== MIN_ROOMS) {
+  if (roomsNumberSelect.value === MAX_ROOMS.toString() && guestsNumberSelect.value !== MIN_ROOMS.toString()) {
     roomsNumberSelect.setCustomValidity('100 комнат - не для гостей');
   } else if (roomsNumberSelect.value < guestsNumberSelect.value) {
     roomsNumberSelect.setCustomValidity('Количество гостей не должно превышать количество комнат');
-  } else if (roomsNumberSelect.value !== MAX_ROOMS && guestsNumberSelect.value === MIN_ROOMS) {
+  } else if (roomsNumberSelect.value !== MAX_ROOMS.toString() && guestsNumberSelect.value === MIN_ROOMS.toString()) {
     roomsNumberSelect.setCustomValidity('Не для гостей только 100 комнат');
   } else {
     roomsNumberSelect.setCustomValidity('');
@@ -99,7 +99,6 @@ const onRoomsChange = () => {
   roomsNumberSelect.reportValidity();
 };
 
-roomsNumberSelect.addEventListener('change', () => onRoomsChange());
-guestsNumberSelect.addEventListener('change', () => onRoomsChange());
+adForm.addEventListener('change', () => onRoomsChange());
 
 export { deactivateForm, activateForm };
