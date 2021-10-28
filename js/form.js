@@ -1,14 +1,20 @@
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
-const MIN_PRICE = 5000;
 const MAX_PRICE = 1000000;
-const MIN_ROOMS = 0;
-const MAX_ROOMS = 100;
+
+const appartmentMinPrices = {
+  bungalow: 0,
+  flat: 1000,
+  hotel: 3000,
+  house: 5000,
+  palace: 10000,
+};
 
 const adForm = document.querySelector('.ad-form');
 const filterForm = document.querySelector('.map__filters');
-const formTitle = adForm.querySelector('#title');
-const formPrice = adForm.querySelector('#price');
+const appartmentTitle = adForm.querySelector('#title');
+const appartmentType = adForm.querySelector('#type');
+const appartmentPrice = adForm.querySelector('#price');
 
 const adFormNodes = Array.from(adForm.children);
 const filterFormNodes = Array.from(filterForm.children);
@@ -26,7 +32,6 @@ const deactivateForm = () => {
 /**
  * Activate form
  */
-
 const activateForm = () => {
   adForm.classList.remove('ad-form--disabled');
   filterForm.classList.remove('ad-form--disabled');
@@ -37,7 +42,6 @@ const activateForm = () => {
  * Callback on title change
  * @param {Object} - event
  */
-
 const onTitleInput = (evt) => {
   const titleLength = evt.target.value.length;
 
@@ -53,17 +57,28 @@ const onTitleInput = (evt) => {
 };
 
 /**
+ * Callback on appartment change
+ * @param {Object} - event
+ */
+const onAppartmentTypeChange = (evt) => {
+  const appartmentTypes = Object.keys(appartmentMinPrices);
+  appartmentPrice.placeholder = appartmentMinPrices[appartmentTypes.find((type) => type.includes(evt.target.value))];
+  appartmentPrice.min = appartmentPrice.placeholder;
+};
+
+appartmentType.addEventListener('change', onAppartmentTypeChange);
+
+/**
  * Callback on price change
  * @param {Object} - event
  */
-
 const onPriceInput = (evt) => {
-  const priceValue = evt.target.value;
+  const priceValue = evt.target.min;
 
   if (priceValue > MAX_PRICE) {
     evt.target.setCustomValidity(`Максимальная сумма не должна превышать ${MAX_PRICE}`);
-  } else if (priceValue < MIN_PRICE) {
-    evt.target.setCustomValidity(`Минимальная сумма должная быть не ниже ${MIN_PRICE}`);
+  } else if (priceValue < evt.target.min) {
+    evt.target.setCustomValidity(`Минимальная сумма должная быть не ниже ${evt.target.min}`);
   } else {
     evt.target.setCustomValidity('');
   }
@@ -71,8 +86,27 @@ const onPriceInput = (evt) => {
   evt.target.reportValidity();
 };
 
-formTitle.addEventListener('input', onTitleInput);
-formPrice.addEventListener('input', onPriceInput);
+appartmentTitle.addEventListener('input', onTitleInput);
+appartmentPrice.addEventListener('input', onPriceInput);
+
+const roomsGuests = {
+  1: {
+    correct: [1],
+    error: 'Для одной комнаты только один гость',
+  },
+  2: {
+    correct: [1, 2],
+    error: 'Для двух комнат - один или два гостя',
+  },
+  3: {
+    correct: [1, 2, 3],
+    error: 'Для трёх комнат — один, два или три гостя',
+  },
+  100: {
+    correct: [0],
+    error: 'Не для гостей',
+  },
+};
 
 const roomsNumberSelect = adForm.querySelector('#room_number');
 const guestsNumberSelect = adForm.querySelector('#capacity');
@@ -84,21 +118,33 @@ const guestsNumberSelect = adForm.querySelector('#capacity');
  * - 3 rooms - "for 3 guests", "for 2 guests" or "for 1 guest";
  * - 100 rooms - "not for guests".
  */
+const onRoomsChange = (evt) => {
+  const rooms = Number(roomsNumberSelect.value);
+  const guests = Number(guestsNumberSelect.value);
 
-const onRoomsChange = () => {
-  if (roomsNumberSelect.value === MAX_ROOMS.toString() && guestsNumberSelect.value !== MIN_ROOMS.toString()) {
-    roomsNumberSelect.setCustomValidity('100 комнат - не для гостей');
-  } else if (roomsNumberSelect.value < guestsNumberSelect.value) {
-    roomsNumberSelect.setCustomValidity('Количество гостей не должно превышать количество комнат');
-  } else if (roomsNumberSelect.value !== MAX_ROOMS.toString() && guestsNumberSelect.value === MIN_ROOMS.toString()) {
-    roomsNumberSelect.setCustomValidity('Не для гостей только 100 комнат');
+  if (!roomsGuests[rooms].correct.includes(guests)) {
+    evt.target.setCustomValidity(roomsGuests[rooms].error);
   } else {
-    roomsNumberSelect.setCustomValidity('');
+    evt.target.setCustomValidity('');
   }
 
-  roomsNumberSelect.reportValidity();
+  evt.target.reportValidity();
 };
 
-adForm.addEventListener('change', () => onRoomsChange());
+const timeinSelect = adForm.querySelector('#timein');
+const timeoutSelect = adForm.querySelector('#timeout');
+const timeinSelectOptions = Array.from(timeinSelect.querySelectorAll('option'));
+const timeoutSelectOptions = Array.from(timeoutSelect.querySelectorAll('option'));
+
+
+const onTimeChange = (evt, options) => {
+  options.find((option) => option.value.includes(evt.target.value)).selected = true;
+};
+
+timeinSelect.addEventListener('change', (evt) => onTimeChange(evt, timeoutSelectOptions));
+timeoutSelect.addEventListener('change', (evt) => onTimeChange(evt, timeinSelectOptions));
+
+roomsNumberSelect.addEventListener('change', onRoomsChange);
+guestsNumberSelect.addEventListener('change', onRoomsChange);
 
 export { deactivateForm, activateForm };

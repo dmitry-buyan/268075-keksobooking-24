@@ -29,7 +29,6 @@ const popup = document.querySelector('#card').content.querySelector('.popup');
  * @param {Array} features
  * @returns innerHTML of features container
  */
-
 const renderFeatures = (features) => {
   const featuresContainer = popup.querySelector('.popup__features');
   const featuresList = featuresContainer.querySelectorAll('.popup__feature');
@@ -48,7 +47,6 @@ const renderFeatures = (features) => {
  * @param {Array} photos
  * @returns innerHTML of photos container
  */
-
 const renderPhotos = (photos) => {
   const photosContainer = popup.querySelector('.popup__photos');
   photosContainer.innerHTML = '';
@@ -74,7 +72,6 @@ const renderPhotos = (photos) => {
  * @param {Object} - destructured object
  * append card element into map
  */
-
 const renderCard = ({author, offer}) => {
   const cardElement = popup.cloneNode(true);
 
