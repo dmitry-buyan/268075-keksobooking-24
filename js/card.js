@@ -21,7 +21,6 @@ const housingTypeTranslation = {
   hotel: 'Отель',
 };
 
-const map = document.querySelector('#map-canvas');
 const popup = document.querySelector('#card').content.querySelector('.popup');
 
 /**
