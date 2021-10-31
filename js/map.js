@@ -75,6 +75,8 @@ mainMarker.on('move', (evt) => {
   setAddress(evt.target.getLatLng());
 });
 
+const markerGroup = L.layerGroup().addTo(map);
+
 const renderMarkers = (data) => {
   data.forEach(({location}) => {
     const currentAdvertisment = generateAdvertisment();
@@ -90,7 +92,7 @@ const renderMarkers = (data) => {
     );
 
     defaultMarker
-      .addTo(map)
+      .addTo(markerGroup)
       .bindPopup(renderCard(currentAdvertisment));
   });
 };
