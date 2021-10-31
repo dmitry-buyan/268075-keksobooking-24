@@ -43,7 +43,6 @@ const appartment = {
  * Generate one advertisment
  * @returns {Object} - advertisment
  */
-
 const generateAdvertisment = () => {
   const randomImageNumber = getFormattedInteger(getRandomIntegerFromRange(ImageNumbers.MIN, ImageNumbers.MAX));
   const randomTypesIndex = getRandomIntegerFromRange(0, appartment.types.length - 1);
@@ -86,7 +85,6 @@ const generateAdvertisment = () => {
  * @param {Number} count
  * @returns {Array} - array of pins
  */
-
 const generatePins = (count) => [...Array(count)].map(generateAdvertisment);
 
-export { generatePins };
+export { generateAdvertisment, generatePins };

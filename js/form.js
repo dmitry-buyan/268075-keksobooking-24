@@ -1,6 +1,7 @@
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
 const MAX_PRICE = 1000000;
+const MIN_DIGITS = 5;
 
 const appartmentMinPrices = {
   bungalow: 0,
@@ -10,16 +11,47 @@ const appartmentMinPrices = {
   palace: 10000,
 };
 
+const roomsGuests = {
+  1: {
+    correct: [1],
+    error: 'Для одной комнаты только один гость',
+  },
+  2: {
+    correct: [1, 2],
+    error: 'Для двух комнат - один или два гостя',
+  },
+  3: {
+    correct: [1, 2, 3],
+    error: 'Для трёх комнат — один, два или три гостя',
+  },
+  100: {
+    correct: [0],
+    error: 'Не для гостей',
+  },
+};
+
 const adForm = document.querySelector('.ad-form');
 const filterForm = document.querySelector('.map__filters');
 const appartmentTitle = adForm.querySelector('#title');
 const appartmentType = adForm.querySelector('#type');
 const appartmentPrice = adForm.querySelector('#price');
+const addressField = adForm.querySelector('#address');
 
 const adFormNodes = Array.from(adForm.children);
 const filterFormNodes = Array.from(filterForm.children);
 const formsNodes = adFormNodes.concat(filterFormNodes);
 
+const timeinSelect = adForm.querySelector('#timein');
+const timeoutSelect = adForm.querySelector('#timeout');
+const timeinSelectOptions = Array.from(timeinSelect.querySelectorAll('option'));
+const timeoutSelectOptions = Array.from(timeoutSelect.querySelectorAll('option'));
+
+const roomsNumberSelect = adForm.querySelector('#room_number');
+const guestsNumberSelect = adForm.querySelector('#capacity');
+
+const setAddress = ({lat, lng}) => {
+  addressField.value = `${lat.toFixed(MIN_DIGITS)} ${lng.toFixed(MIN_DIGITS)}`;
+};
 /**
  * Deactivate form
  */
@@ -66,8 +98,6 @@ const onAppartmentTypeChange = (evt) => {
   appartmentPrice.min = appartmentPrice.placeholder;
 };
 
-appartmentType.addEventListener('change', onAppartmentTypeChange);
-
 /**
  * Callback on price change
  * @param {Object} - event
@@ -85,31 +115,6 @@ const onPriceInput = (evt) => {
 
   evt.target.reportValidity();
 };
-
-appartmentTitle.addEventListener('input', onTitleInput);
-appartmentPrice.addEventListener('input', onPriceInput);
-
-const roomsGuests = {
-  1: {
-    correct: [1],
-    error: 'Для одной комнаты только один гость',
-  },
-  2: {
-    correct: [1, 2],
-    error: 'Для двух комнат - один или два гостя',
-  },
-  3: {
-    correct: [1, 2, 3],
-    error: 'Для трёх комнат — один, два или три гостя',
-  },
-  100: {
-    correct: [0],
-    error: 'Не для гостей',
-  },
-};
-
-const roomsNumberSelect = adForm.querySelector('#room_number');
-const guestsNumberSelect = adForm.querySelector('#capacity');
 
 /**
  * Check user select rooms
@@ -131,20 +136,18 @@ const onRoomsChange = (evt) => {
   evt.target.reportValidity();
 };
 
-const timeinSelect = adForm.querySelector('#timein');
-const timeoutSelect = adForm.querySelector('#timeout');
-const timeinSelectOptions = Array.from(timeinSelect.querySelectorAll('option'));
-const timeoutSelectOptions = Array.from(timeoutSelect.querySelectorAll('option'));
-
-
 const onTimeChange = (evt, options) => {
   options.find((option) => option.value.includes(evt.target.value)).selected = true;
 };
 
-timeinSelect.addEventListener('change', (evt) => onTimeChange(evt, timeoutSelectOptions));
-timeoutSelect.addEventListener('change', (evt) => onTimeChange(evt, timeinSelectOptions));
+const addFormValidation = () => {
+  appartmentType.addEventListener('change', onAppartmentTypeChange);
+  appartmentTitle.addEventListener('input', onTitleInput);
+  appartmentPrice.addEventListener('input', onPriceInput);
+  timeinSelect.addEventListener('change', (evt) => onTimeChange(evt, timeoutSelectOptions));
+  timeoutSelect.addEventListener('change', (evt) => onTimeChange(evt, timeinSelectOptions));
+  roomsNumberSelect.addEventListener('change', onRoomsChange);
+  guestsNumberSelect.addEventListener('change', onRoomsChange);
+};
 
-roomsNumberSelect.addEventListener('change', onRoomsChange);
-guestsNumberSelect.addEventListener('change', onRoomsChange);
-
-export { deactivateForm, activateForm };
+export { setAddress, deactivateForm, activateForm, addFormValidation };
