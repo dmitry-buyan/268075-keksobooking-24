@@ -140,7 +140,7 @@ const onTimeChange = (evt, options) => {
   options.find((option) => option.value.includes(evt.target.value)).selected = true;
 };
 
-const addFormValidation = () => {
+const addFormHandlers = () => {
   appartmentType.addEventListener('change', onAppartmentTypeChange);
   appartmentTitle.addEventListener('input', onTitleInput);
   appartmentPrice.addEventListener('input', onPriceInput);
@@ -150,4 +150,4 @@ const addFormValidation = () => {
   guestsNumberSelect.addEventListener('change', onRoomsChange);
 };
 
-export { setAddress, deactivateForm, activateForm, addFormValidation };
+export { setAddress, deactivateForm, activateForm, addFormHandlers };

@@ -87,4 +87,4 @@ const generateAdvertisment = () => {
  */
 const generatePins = (count) => [...Array(count)].map(generateAdvertisment);
 
-export { generateAdvertisment, generatePins };
+export { generatePins };
