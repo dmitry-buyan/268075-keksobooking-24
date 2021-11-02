@@ -21,7 +21,6 @@ const housingTypeTranslation = {
   hotel: 'Отель',
 };
 
-const map = document.querySelector('#map-canvas');
 const popup = document.querySelector('#card').content.querySelector('.popup');
 
 /**
@@ -86,7 +85,7 @@ const renderCard = ({author, offer}) => {
   cardElement.querySelector('.popup__description').textContent = offer.description;
   cardElement.querySelector('.popup__photos').innerHTML = renderPhotos(offer.photos);
 
-  map.append(cardElement);
+  return cardElement;
 };
 
 export { renderCard };

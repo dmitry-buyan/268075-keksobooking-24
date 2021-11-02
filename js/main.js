@@ -1,9 +1,13 @@
+import { deactivateForm, activateForm, addFormValidation } from './form.js';
 import { generatePins } from './mock/pins.js';
-import { renderCard } from './card.js';
-import { deactivateForm, activateForm } from './form.js';
+import { renderMarkers } from './map.js';
+import './map.js';
+
 
 const PINS_COUNT = 10;
 
-renderCard(generatePins(PINS_COUNT)[0]);
 deactivateForm();
 activateForm();
+addFormValidation();
+renderMarkers(generatePins(PINS_COUNT));
+
