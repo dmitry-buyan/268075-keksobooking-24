@@ -100,20 +100,8 @@ const renderCard = ({author, offer}) => {
   adCapacity.textContent = `${offer.rooms} ${TextLines.ROOMS} ${offer.guests} ${TextLines.GUESTS}`;
   adTime.textContent = `${TextLines.CHECKIN} ${offer.checkin}, ${TextLines.CHECKOUT} ${offer.checkout}`;
   adDescription.textContent = isValue(offer.description, adDescription);
-
-  // adFeatures.innerHTML = '';
-  // if (offer.features.length) {
-  //   adFeatures.append(renderFeatures(offer.features));
-  // } else {
-  //   adFeatures.classList.add('hidden');
-  // }
-
-  // adPhotos.innerHTML = '';
-  // if (offer.photos.length) {
-  //   adPhotos.append(renderPhotos(offer.photos));
-  // } else {
-  //   adPhotos.classList.add('hidden');
-  // }
+  adFeatures.innerHTML = renderFeatures(offer.features);
+  adPhotos.innerHTML = renderPhotos(offer.photos);
 
   return cardElement;
 };
