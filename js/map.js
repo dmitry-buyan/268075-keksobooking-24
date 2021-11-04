@@ -1,5 +1,5 @@
-import { setAddress, activateForm } from './form.js';
 import { renderCard } from './card.js';
+import { setAddress, activateForm } from './form.js';
 
 const mapOptions = {
   zoom: 13,
@@ -29,15 +29,18 @@ const markersOptions = {
   },
 };
 
-const map = L.map('map-canvas')
-  .on('load', () => {
+const map = L.map('map-canvas');
+
+const mapInit = () => {
+  map.on('load', () => {
     activateForm();
     setAddress(mapOptions.defaultCoords);
   })
-  .setView({
-    lat: mapOptions.defaultCoords.lat,
-    lng: mapOptions.defaultCoords.lng,
-  }, mapOptions.zoom);
+    .setView({
+      lat: mapOptions.defaultCoords.lat,
+      lng: mapOptions.defaultCoords.lng,
+    }, mapOptions.zoom);
+};
 
 L.tileLayer(
   mapOptions.tile.url,
@@ -92,7 +95,8 @@ const renderMarkers = (pins) => {
     defaultMarker
       .addTo(markerGroup)
       .bindPopup(renderCard(pin));
+
   });
 };
 
-export { renderMarkers };
+export { mapInit, renderMarkers };

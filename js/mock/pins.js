@@ -1,4 +1,4 @@
-import { getRandomIntegerFromRange, getFormattedInteger, getRandomShuffledArray } from './utils.js';
+import { getRandomIntegerFromRange, getFormattedInteger, getRandomShuffledArray } from '../utils.js';
 
 const Prices = {
   MIN: 1000,

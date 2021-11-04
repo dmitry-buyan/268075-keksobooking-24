@@ -1,3 +1,6 @@
+import { sendData } from './api.js';
+import { onError } from './utils.js';
+
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
 const MAX_PRICE = 1000000;
@@ -136,7 +139,7 @@ const onRoomsChange = (evt) => {
   evt.target.reportValidity();
 };
 
-const onTimeChange = (evt, options) => {
+const getTimeSelectValue = (evt, options) => {
   options.find((option) => option.value.includes(evt.target.value)).selected = true;
 };
 
@@ -144,10 +147,35 @@ const addFormHandlers = () => {
   appartmentType.addEventListener('change', onAppartmentTypeChange);
   appartmentTitle.addEventListener('input', onTitleInput);
   appartmentPrice.addEventListener('input', onPriceInput);
-  timeinSelect.addEventListener('change', (evt) => onTimeChange(evt, timeoutSelectOptions));
-  timeoutSelect.addEventListener('change', (evt) => onTimeChange(evt, timeinSelectOptions));
+  timeinSelect.addEventListener('change', (evt) => getTimeSelectValue(evt, timeoutSelectOptions));
+  timeoutSelect.addEventListener('change', (evt) => getTimeSelectValue(evt, timeinSelectOptions));
   roomsNumberSelect.addEventListener('change', onRoomsChange);
   guestsNumberSelect.addEventListener('change', onRoomsChange);
 };
 
-export { setAddress, deactivateForm, activateForm, addFormHandlers };
+const resetForm = () => {
+  adForm.reset();
+  filterForm.reset();
+  deactivateForm();
+};
+
+const setFormSubmit = (onSuccess) => {
+  adForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    sendData(
+      () => onSuccess(),
+      () => onError(),
+      new FormData(evt.target),
+    );
+  });
+};
+
+export {
+  setAddress,
+  deactivateForm,
+  activateForm,
+  resetForm,
+  addFormHandlers,
+  setFormSubmit
+};

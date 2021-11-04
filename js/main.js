@@ -1,10 +1,14 @@
-import { deactivateForm, addFormHandlers } from './form.js';
-import { generatePins } from './mock/pins.js';
-import { renderMarkers } from './map.js';
+import { addFormHandlers, deactivateForm, setFormSubmit } from './form.js';
+import { mapInit, renderMarkers } from './map.js';
+import { getData } from './api.js';
 
 const PINS_COUNT = 10;
 
 deactivateForm();
+mapInit();
 addFormHandlers();
-renderMarkers(generatePins(PINS_COUNT));
+setFormSubmit();
 
+getData((pins) => {
+  renderMarkers(pins.slice(0, PINS_COUNT));
+});
