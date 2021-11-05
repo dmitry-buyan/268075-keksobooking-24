@@ -1,4 +1,4 @@
-import { getRandomIntegerFromRange, getFormattedInteger, getRandomShuffledArray } from './utils.js';
+import { getRandomIntegerFromRange, getFormattedInteger, getRandomShuffledArray } from '../utils.js';
 
 const Prices = {
   MIN: 1000,
@@ -87,4 +87,4 @@ const generateAdvertisment = () => {
  */
 const generatePins = (count) => [...Array(count)].map(generateAdvertisment);
 
-export { generateAdvertisment, generatePins };
+export { generatePins };
