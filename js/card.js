@@ -1,4 +1,4 @@
-const DEFAULT_AVATAR = './img/avatars/default.png';
+import { DEFAULT_AVATAR } from './form.js';
 
 const Photos = {
   WIDTH: '45px',

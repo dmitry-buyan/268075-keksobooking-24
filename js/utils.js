@@ -20,8 +20,6 @@ const getRandomShuffledArray = (array) => {
   return newArray.slice(randomIndex);
 };
 
-const isEscapeKey = (evt) => evt.key === 'Escape';
-
 const onError = (message) => {
   const node = document.createElement('div');
   const errorParagraph = document.createElement('p');
@@ -36,6 +34,5 @@ export {
   getRandomIntegerFromRange,
   getFormattedInteger,
   getRandomShuffledArray,
-  isEscapeKey,
   onError
 };

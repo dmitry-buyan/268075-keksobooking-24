@@ -8,14 +8,15 @@ const HttpMethods = {
   POST: 'POST',
 };
 
-const getData = (onLoad) => {
+const getData = (onLoad, onError) => {
   fetch(Urls.LOAD)
     .then((response) => response.json())
-    .then((pins) => onLoad(pins));
+    .then((pins) => onLoad(pins))
+    .catch((err) => onError(err));
 };
 
 const sendData = (onUpload, onError, data) => {
-  fetch(URL.UPLOAD,
+  fetch(Urls.UPLOAD,
     {
       method: HttpMethods.POST,
       body: data,
@@ -25,12 +26,10 @@ const sendData = (onUpload, onError, data) => {
       if (response.ok) {
         onUpload();
       } else {
-        throw new Error('Не удалось отправить данные');
+        onError('Не удалось отправить данные');
       }
     })
-    .catch((err) => {
-      onError(err);
-    });
+    .catch((err) => onError(err));
 };
 
 export { getData, sendData };

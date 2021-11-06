@@ -3,8 +3,10 @@ import { onError } from './utils.js';
 
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
+const MIN_PRICE = 0;
 const MAX_PRICE = 1000000;
 const MIN_DIGITS = 5;
+const DEFAULT_AVATAR = './img/avatars/default.png';
 
 const appartmentMinPrices = {
   bungalow: 0,
@@ -39,6 +41,7 @@ const appartmentTitle = adForm.querySelector('#title');
 const appartmentType = adForm.querySelector('#type');
 const appartmentPrice = adForm.querySelector('#price');
 const addressField = adForm.querySelector('#address');
+const userAvatar = adForm.querySelector('.ad-form-header__preview').querySelector('img');
 
 const adFormNodes = Array.from(adForm.children);
 const filterFormNodes = Array.from(filterForm.children);
@@ -156,6 +159,9 @@ const addFormHandlers = () => {
 const resetForm = () => {
   adForm.reset();
   filterForm.reset();
+  userAvatar.src = DEFAULT_AVATAR;
+  appartmentPrice.placeholder = MIN_PRICE;
+  appartmentPrice.value = '';
   deactivateForm();
 };
 
@@ -163,11 +169,7 @@ const setFormSubmit = (onSuccess) => {
   adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
-    sendData(
-      () => onSuccess(),
-      () => onError(),
-      new FormData(evt.target),
-    );
+    sendData(onSuccess, onError, new FormData(evt.target));
   });
 };
 
@@ -177,5 +179,6 @@ export {
   activateForm,
   resetForm,
   addFormHandlers,
-  setFormSubmit
+  setFormSubmit,
+  DEFAULT_AVATAR
 };
