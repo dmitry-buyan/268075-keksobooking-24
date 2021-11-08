@@ -1,4 +1,4 @@
-import { DEFAULT_AVATAR } from './form.js';
+const DEFAULT_AVATAR = './img/avatars/default.png';
 
 const Photos = {
   WIDTH: '45px',
@@ -100,8 +100,18 @@ const renderCard = ({author, offer}) => {
   adCapacity.textContent = `${offer.rooms} ${TextLines.ROOMS} ${offer.guests} ${TextLines.GUESTS}`;
   adTime.textContent = `${TextLines.CHECKIN} ${offer.checkin}, ${TextLines.CHECKOUT} ${offer.checkout}`;
   adDescription.textContent = isValue(offer.description, adDescription);
-  adFeatures.innerHTML = renderFeatures(offer.features);
-  adPhotos.innerHTML = renderPhotos(offer.photos);
+
+  if (offer.features) {
+    adFeatures.innerHTML = renderFeatures(offer.features);
+  } else {
+    adFeatures.classList.add('hidden');
+  }
+
+  if (offer.photos) {
+    adPhotos.innerHTML = renderPhotos(offer.photos);
+  } else {
+    adPhotos.classList.add('hidden');
+  }
 
   return cardElement;
 };

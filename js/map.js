@@ -1,5 +1,5 @@
 import { renderCard } from './card.js';
-import { setAddress, activateForm } from './form.js';
+import { setAddress } from './form.js';
 
 const mapOptions = {
   zoom: 13,
@@ -31,9 +31,8 @@ const markersOptions = {
 
 const map = L.map('map-canvas');
 
-const mapInit = () => {
+const initMap = () => {
   map.on('load', () => {
-    activateForm();
     setAddress(mapOptions.defaultCoords);
   })
     .setView({
@@ -48,6 +47,13 @@ L.tileLayer(
     attribution: mapOptions.tile.attr,
   },
 ).addTo(map);
+
+const resetMap = () => {
+  map.setView({
+    lat: mapOptions.defaultCoords.lat,
+    lng: mapOptions.defaultCoords.lng,
+  }, mapOptions.zoom);
+};
 
 const mainMarkerIcon = L.icon({
   iconUrl: `${markersOptions.path}${markersOptions.mainMarker.name}`,
@@ -72,6 +78,8 @@ const mainMarker = L.marker(
   },
 );
 
+const resetMainMarker = () => mainMarker.setLatLng(mapOptions.defaultCoords);
+
 mainMarker.addTo(map);
 
 mainMarker.on('move', (evt) => {
@@ -82,7 +90,7 @@ const markerGroup = L.layerGroup().addTo(map);
 
 const renderMarkers = (pins) => {
   pins.forEach((pin) => {
-    const defaultMarker = L.marker(
+    L.marker(
       {
         lat: pin.location.lat,
         lng: pin.location.lng,
@@ -90,13 +98,18 @@ const renderMarkers = (pins) => {
       {
         icon: defautlMarkerIcon,
       },
-    );
-
-    defaultMarker
+    )
       .addTo(markerGroup)
       .bindPopup(renderCard(pin));
-
   });
 };
 
-export { mapInit, renderMarkers };
+const removePopup = () => {
+  const popupConainer = document.querySelector('.leaflet-popup-pane');
+
+  while(popupConainer.firstChild) {
+    popupConainer.removeChild(popupConainer.firstChild);
+  }
+};
+
+export { mapOptions, initMap, renderMarkers, resetMainMarker, resetMap, removePopup };
