@@ -1,10 +1,14 @@
 import { sendData } from './api.js';
-import { onError } from './utils.js';
+import { mapOptions, removePopup, resetMainMarker, resetMap } from './map.js';
+import { showMessage } from './popup.js';
 
-const MIN_TITLE_LENGTH = 30;
-const MAX_TITLE_LENGTH = 100;
 const MAX_PRICE = 1000000;
 const MIN_DIGITS = 5;
+
+const TITLE_LENGTH = {
+  min: 30,
+  max: 100,
+};
 
 const appartmentMinPrices = {
   bungalow: 0,
@@ -53,8 +57,11 @@ const roomsNumberSelect = adForm.querySelector('#room_number');
 const guestsNumberSelect = adForm.querySelector('#capacity');
 
 const setAddress = ({lat, lng}) => {
-  addressField.value = `${lat.toFixed(MIN_DIGITS)} ${lng.toFixed(MIN_DIGITS)}`;
+  addressField.value = `${lat.toFixed(MIN_DIGITS)}, ${lng.toFixed(MIN_DIGITS)}`;
 };
+
+const resetAddress = () => setAddress(mapOptions.defaultCoords);
+
 /**
  * Deactivate form
  */
@@ -80,10 +87,10 @@ const activateForm = () => {
 const onTitleInput = (evt) => {
   const titleLength = evt.target.value.length;
 
-  if (titleLength < MIN_TITLE_LENGTH) {
-    evt.target.setCustomValidity(`Ещё ${MIN_TITLE_LENGTH - titleLength} симв.`);
-  } else if (titleLength > MAX_TITLE_LENGTH) {
-    evt.target.setCustomValidity(`Удалите лишние ${titleLength - MAX_TITLE_LENGTH} симв.`);
+  if (titleLength < TITLE_LENGTH.min) {
+    evt.target.setCustomValidity(`Ещё ${TITLE_LENGTH.min - titleLength} симв.`);
+  } else if (titleLength > TITLE_LENGTH.max) {
+    evt.target.setCustomValidity(`Удалите лишние ${titleLength - TITLE_LENGTH.max} симв.`);
   } else {
     evt.target.setCustomValidity('');
   }
@@ -143,6 +150,28 @@ const getTimeSelectValue = (evt, options) => {
   options.find((option) => option.value.includes(evt.target.value)).selected = true;
 };
 
+const onFormSubmitSuccess = () => {
+  adForm.reset();
+  filterForm.reset();
+  resetMap();
+  resetMainMarker();
+  resetAddress();
+  removePopup();
+  showMessage('success');
+};
+
+const onFormSubmitError = () => {
+  showMessage('error');
+};
+
+const setFormSubmit = () => {
+  adForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    sendData(onFormSubmitSuccess, onFormSubmitError, new FormData(evt.target));
+  });
+};
+
 const addFormHandlers = () => {
   appartmentType.addEventListener('change', onAppartmentTypeChange);
   appartmentTitle.addEventListener('input', onTitleInput);
@@ -151,31 +180,14 @@ const addFormHandlers = () => {
   timeoutSelect.addEventListener('change', (evt) => getTimeSelectValue(evt, timeinSelectOptions));
   roomsNumberSelect.addEventListener('change', onRoomsChange);
   guestsNumberSelect.addEventListener('change', onRoomsChange);
-};
-
-const resetForm = () => {
-  adForm.reset();
-  filterForm.reset();
-  deactivateForm();
-};
-
-const setFormSubmit = (onSuccess) => {
-  adForm.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-
-    sendData(
-      () => onSuccess(),
-      () => onError(),
-      new FormData(evt.target),
-    );
-  });
+  setFormSubmit();
 };
 
 export {
   setAddress,
   deactivateForm,
   activateForm,
-  resetForm,
+  onFormSubmitSuccess,
   addFormHandlers,
   setFormSubmit
 };
