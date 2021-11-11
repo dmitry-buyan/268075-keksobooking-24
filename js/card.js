@@ -104,7 +104,7 @@ const renderCard = ({author, offer}) => {
   if (offer.features) {
     adFeatures.innerHTML = renderFeatures(offer.features);
   } else {
-    adFeatures.classList.add('hidden');
+    adFeatures.remove();
   }
 
   if (offer.photos) {

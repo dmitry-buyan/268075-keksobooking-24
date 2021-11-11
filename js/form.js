@@ -5,9 +5,9 @@ import { showMessage } from './popup.js';
 const MAX_PRICE = 1000000;
 const MIN_DIGITS = 5;
 
-const TITLE_LENGTH = {
-  min: 30,
-  max: 100,
+const TitleLength = {
+  MIN: 30,
+  MAX: 100,
 };
 
 const appartmentMinPrices = {
@@ -87,10 +87,10 @@ const activateForm = () => {
 const onTitleInput = (evt) => {
   const titleLength = evt.target.value.length;
 
-  if (titleLength < TITLE_LENGTH.min) {
-    evt.target.setCustomValidity(`Ещё ${TITLE_LENGTH.min - titleLength} симв.`);
-  } else if (titleLength > TITLE_LENGTH.max) {
-    evt.target.setCustomValidity(`Удалите лишние ${titleLength - TITLE_LENGTH.max} симв.`);
+  if (titleLength < TitleLength.MIN) {
+    evt.target.setCustomValidity(`Ещё ${TitleLength.MIN - titleLength} симв.`);
+  } else if (titleLength > TitleLength.MAX) {
+    evt.target.setCustomValidity(`Удалите лишние ${titleLength - TitleLength.MAX} симв.`);
   } else {
     evt.target.setCustomValidity('');
   }
@@ -187,7 +187,6 @@ export {
   setAddress,
   deactivateForm,
   activateForm,
-  onFormSubmitSuccess,
   addFormHandlers,
   setFormSubmit
 };

@@ -49,10 +49,7 @@ L.tileLayer(
 ).addTo(map);
 
 const resetMap = () => {
-  map.setView({
-    lat: mapOptions.defaultCoords.lat,
-    lng: mapOptions.defaultCoords.lng,
-  }, mapOptions.zoom);
+  map.setView(mapOptions.defaultCoords, mapOptions.zoom);
 };
 
 const mainMarkerIcon = L.icon({
@@ -91,10 +88,7 @@ const markerGroup = L.layerGroup().addTo(map);
 const renderMarkers = (pins) => {
   pins.forEach((pin) => {
     L.marker(
-      {
-        lat: pin.location.lat,
-        lng: pin.location.lng,
-      },
+      pin.location,
       {
         icon: defautlMarkerIcon,
       },
