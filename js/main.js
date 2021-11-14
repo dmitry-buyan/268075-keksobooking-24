@@ -11,7 +11,6 @@ addFormHandlers();
 getData(
   (pins) => {
     activateForm();
-    console.log(filterPins(pins));
     renderMarkers(filterPins(pins));
   },
   showLoadErrorMessage,
