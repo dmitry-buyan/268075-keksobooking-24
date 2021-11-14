@@ -50,7 +50,11 @@ const getHouseFeaturesValue = ({offer}) => {
 const filterPins = (pins) => {
   const filteredPins = pins
     .filter((pin) => {
-      getHouseTypeValue(pin) && getHousePriceValue && getHouseRoomsValue && getHouseGuestsValue && getHouseFeaturesValue;
+      getHouseTypeValue(pin) &&
+      getHousePriceValue(pin) &&
+      getHouseRoomsValue(pin) &&
+      getHouseGuestsValue(pin) &&
+      getHouseFeaturesValue(pin);
     })
     .slice(MIN_PINS_COUNT, MAX_PINS_COUNT);
 
