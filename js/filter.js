@@ -1,3 +1,5 @@
+import { debounce } from './utils/debounce.js';
+
 const MIN_PINS_COUNT = 0;
 const MAX_PINS_COUNT = 10;
 const ANY_VALUE = 'any';
@@ -61,4 +63,8 @@ const filterPins = (pins) => {
   return filteredPins;
 };
 
-export { filterPins };
+const setFilterFormChange = (cb) => {
+  filterForm.addEventListener('change', debounce(cb));
+};
+
+export { filterPins, setFilterFormChange };
