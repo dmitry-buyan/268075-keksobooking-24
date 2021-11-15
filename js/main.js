@@ -5,14 +5,19 @@ import { showLoadErrorMessage } from './popup.js';
 import { filterPins, setFilterFormChange } from './filter.js';
 
 deactivateForm();
-initMap();
-addFormHandlers();
 
-getData(
-  (pins) => {
-    activateForm();
-    renderMarkers(filterPins(pins));
-    setFilterFormChange(() => renderMarkers(filterPins(pins)));
-  },
-  showLoadErrorMessage,
-);
+const getSimilarAds = () => {
+  getData(
+    (pins) => {
+      renderMarkers(filterPins(pins));
+      setFilterFormChange(() => renderMarkers(filterPins(pins)));
+    },
+    showLoadErrorMessage,
+  );
+};
+
+initMap()
+  .then(getSimilarAds)
+  .then(activateForm)
+  .then(addFormHandlers)
+  .catch(showLoadErrorMessage);

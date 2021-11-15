@@ -31,7 +31,7 @@ const markersOptions = {
 
 const map = L.map('map-canvas');
 
-const initMap = () => {
+const initMap = async() => {
   map.on('load', () => {
     setAddress(mapOptions.defaultCoords);
   })
