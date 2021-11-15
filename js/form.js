@@ -164,6 +164,7 @@ const onFormSubmitSuccess = () => {
 const onResetButtonClick = (evt) => {
   evt.preventDefault();
   adForm.reset();
+  filterForm.reset();
   resetMap();
   resetMainMarker();
   resetAddress();

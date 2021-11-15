@@ -1,5 +1,7 @@
 import { renderCard } from './card.js';
 import { setAddress } from './form.js';
+import { filterPins } from './filter.js';
+let adsData = [];
 
 const mapOptions = {
   zoom: 13,
@@ -48,9 +50,7 @@ L.tileLayer(
   },
 ).addTo(map);
 
-const resetMap = () => {
-  map.setView(mapOptions.defaultCoords, mapOptions.zoom);
-};
+const markerGroup = L.layerGroup().addTo(map);
 
 const mainMarkerIcon = L.icon({
   iconUrl: `${markersOptions.path}${markersOptions.mainMarker.name}`,
@@ -83,8 +83,6 @@ mainMarker.on('move', (evt) => {
   setAddress(evt.target.getLatLng());
 });
 
-const markerGroup = L.layerGroup().addTo(map);
-
 const renderMarkers = (pins) => {
   pins.forEach((pin) => {
     L.marker(
@@ -106,4 +104,14 @@ const removePopup = () => {
   }
 };
 
-export { mapOptions, initMap, renderMarkers, resetMainMarker, resetMap, removePopup };
+const saveAdsData = (ads) => {
+  adsData = ads.slice();
+};
+
+const resetMap = () => {
+  map.setView(mapOptions.defaultCoords, mapOptions.zoom);
+  markerGroup.clearLayers();
+  renderMarkers(filterPins(adsData));
+};
+
+export { mapOptions, initMap, renderMarkers, resetMainMarker, resetMap, removePopup, saveAdsData };
