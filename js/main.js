@@ -11,6 +11,7 @@ addFormHandlers();
 getData(
   (pins) => {
     activateForm();
+    renderMarkers(filterPins(pins));
     setFilterFormChange(() => renderMarkers(filterPins(pins)));
   },
   showLoadErrorMessage,

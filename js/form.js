@@ -43,6 +43,7 @@ const appartmentTitle = adForm.querySelector('#title');
 const appartmentType = adForm.querySelector('#type');
 const appartmentPrice = adForm.querySelector('#price');
 const addressField = adForm.querySelector('#address');
+const resetButton = adForm.querySelector('.ad-form__reset');
 
 const adFormNodes = Array.from(adForm.children);
 const filterFormNodes = Array.from(filterForm.children);
@@ -159,6 +160,17 @@ const onFormSubmitSuccess = () => {
   removePopup();
   showMessage('success');
 };
+
+const onResetButtonClick = (evt) => {
+  evt.preventDefault();
+  adForm.reset();
+  resetMap();
+  resetMainMarker();
+  resetAddress();
+  removePopup();
+};
+
+resetButton.addEventListener('click', onResetButtonClick);
 
 const onFormSubmitError = () => {
   showMessage('error');
