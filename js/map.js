@@ -84,6 +84,7 @@ mainMarker.on('move', (evt) => {
 });
 
 const renderMarkers = (pins) => {
+  markerGroup.clearLayers();
   pins.forEach((pin) => {
     L.marker(
       pin.location,
