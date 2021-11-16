@@ -20,7 +20,7 @@ const mapPrice = {
   },
 };
 
-const filters = Array.from(document.querySelector('.map__filters').children);
+const filters = Array.from(filterForm.children);
 
 const filterRules = {
   'housing-type': ({offer}, filter) => filter.value === offer.type,
@@ -33,11 +33,11 @@ const filterRules = {
 
   'housing-features': ({offer}, filter) => {
     if (offer.features) {
-      const checkListElements = Array.from(filter.querySelectorAll('input[type="checkbox"]:checked'));
-      return checkListElements.every((checkListElement) => offer.features.some((feature) => feature === checkListElement.value));
-    } else {
-      return false;
+      const checkedFeatures = Array.from(filter.querySelectorAll('input[type="checkbox"]:checked'));
+      return checkedFeatures.every((feature) => offer.features.includes(feature.value));
     }
+
+    return false;
   },
 };
 
