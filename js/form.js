@@ -151,7 +151,10 @@ const getTimeSelectValue = (evt, options) => {
   options.find((option) => option.value.includes(evt.target.value)).selected = true;
 };
 
-const resetPrice = () => appartmentPrice.placeholder = appartmentMinPrices.flat;
+const resetPrice = () => {
+  appartmentPrice.placeholder = appartmentMinPrices.flat;
+  appartmentPrice.setAttribute('min', appartmentMinPrices.flat);
+};
 
 const onFormSubmitSuccess = () => {
   adForm.reset();
