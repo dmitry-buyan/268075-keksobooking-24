@@ -1,18 +1,24 @@
 import { addFormHandlers, deactivateForm, activateForm } from './form.js';
-import { initMap, renderMarkers } from './map.js';
+import { initMap, renderMarkers, saveAdsData } from './map.js';
 import { getData } from './api.js';
 import { showLoadErrorMessage } from './popup.js';
-
-const PINS_COUNT = 10;
+import { filterPins, setFilterFormChange } from './filter.js';
 
 deactivateForm();
-initMap();
-addFormHandlers();
 
-getData(
-  (pins) => {
-    activateForm();
-    renderMarkers(pins.slice(0, PINS_COUNT));
-  },
-  showLoadErrorMessage,
-);
+const getSimilarAds = () => {
+  getData(
+    (pins) => {
+      saveAdsData(pins);
+      renderMarkers(filterPins(pins));
+      setFilterFormChange(() => renderMarkers(filterPins(pins)));
+    },
+    showLoadErrorMessage,
+  );
+};
+
+initMap()
+  .then(getSimilarAds)
+  .then(activateForm)
+  .then(addFormHandlers)
+  .catch(showLoadErrorMessage);

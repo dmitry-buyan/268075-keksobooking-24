@@ -32,19 +32,23 @@ const isValue = (value, element) => value || element.remove();
  * @param {Array} features
  * @returns innerHTML of features container
  */
-const renderFeatures = (features) => {
-  const featuresContainer = popup.querySelector('.popup__features');
+
+const renderFeatures = (features, popupCard) => {
+  const featuresContainer = popupCard.querySelector('.popup__features');
   const featuresList = featuresContainer.querySelectorAll('.popup__feature');
 
-  featuresList.forEach((featureItem) => {
-    const isFeatureAvailable = features.some((feature) => featureItem.classList.contains(`popup__feature--${feature}`));
+  if (features) {
+    featuresList.forEach((featureItem) => {
+      const isFeatureAvailable = features.some((feature) => featureItem.classList.contains(`popup__feature--${feature}`));
 
-    if (!isFeatureAvailable) {
-      featureItem.remove();
-    }
-  });
+      if (!isFeatureAvailable) {
+        featureItem.remove();
+      }
 
-  return featuresContainer.innerHTML;
+    });
+  } else {
+    featuresContainer.remove();
+  }
 };
 
 /**
@@ -89,7 +93,6 @@ const renderCard = ({author, offer}) => {
   const adCapacity = cardElement.querySelector('.popup__text--capacity');
   const adTime = cardElement.querySelector('.popup__text--time');
   const adDescription = cardElement.querySelector('.popup__description');
-  const adFeatures = cardElement.querySelector('.popup__features');
   const adPhotos = cardElement.querySelector('.popup__photos');
 
   adAvatar.src = author.avatar || DEFAULT_AVATAR;
@@ -100,12 +103,7 @@ const renderCard = ({author, offer}) => {
   adCapacity.textContent = `${offer.rooms} ${TextLines.ROOMS} ${offer.guests} ${TextLines.GUESTS}`;
   adTime.textContent = `${TextLines.CHECKIN} ${offer.checkin}, ${TextLines.CHECKOUT} ${offer.checkout}`;
   adDescription.textContent = isValue(offer.description, adDescription);
-
-  if (offer.features) {
-    adFeatures.innerHTML = renderFeatures(offer.features);
-  } else {
-    adFeatures.classList.add('hidden');
-  }
+  renderFeatures(offer.features, cardElement);
 
   if (offer.photos) {
     adPhotos.innerHTML = renderPhotos(offer.photos);

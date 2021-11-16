@@ -1,5 +1,7 @@
 import { renderCard } from './card.js';
 import { setAddress } from './form.js';
+import { filterPins } from './filter.js';
+let adsData = [];
 
 const mapOptions = {
   zoom: 13,
@@ -31,7 +33,7 @@ const markersOptions = {
 
 const map = L.map('map-canvas');
 
-const initMap = () => {
+const initMap = async() => {
   map.on('load', () => {
     setAddress(mapOptions.defaultCoords);
   })
@@ -48,12 +50,7 @@ L.tileLayer(
   },
 ).addTo(map);
 
-const resetMap = () => {
-  map.setView({
-    lat: mapOptions.defaultCoords.lat,
-    lng: mapOptions.defaultCoords.lng,
-  }, mapOptions.zoom);
-};
+const markerGroup = L.layerGroup().addTo(map);
 
 const mainMarkerIcon = L.icon({
   iconUrl: `${markersOptions.path}${markersOptions.mainMarker.name}`,
@@ -86,15 +83,11 @@ mainMarker.on('move', (evt) => {
   setAddress(evt.target.getLatLng());
 });
 
-const markerGroup = L.layerGroup().addTo(map);
-
 const renderMarkers = (pins) => {
+  markerGroup.clearLayers();
   pins.forEach((pin) => {
     L.marker(
-      {
-        lat: pin.location.lat,
-        lng: pin.location.lng,
-      },
+      pin.location,
       {
         icon: defautlMarkerIcon,
       },
@@ -105,11 +98,21 @@ const renderMarkers = (pins) => {
 };
 
 const removePopup = () => {
-  const popupConainer = document.querySelector('.leaflet-popup-pane');
+  const popupContainer = document.querySelector('.leaflet-popup-pane');
 
-  while(popupConainer.firstChild) {
-    popupConainer.removeChild(popupConainer.firstChild);
+  while(popupContainer.firstChild) {
+    popupContainer.removeChild(popupContainer.firstChild);
   }
 };
 
-export { mapOptions, initMap, renderMarkers, resetMainMarker, resetMap, removePopup };
+const saveAdsData = (ads) => {
+  adsData = ads.slice();
+};
+
+const resetMap = () => {
+  map.setView(mapOptions.defaultCoords, mapOptions.zoom);
+  markerGroup.clearLayers();
+  renderMarkers(filterPins(adsData));
+};
+
+export { mapOptions, initMap, renderMarkers, resetMainMarker, resetMap, removePopup, saveAdsData };
