@@ -1,6 +1,7 @@
 import { sendData } from './api.js';
 import { mapOptions, removePopup, resetMainMarker, resetMap } from './map.js';
 import { showMessage } from './popup.js';
+import { resetPreview, setAvatarChange, setPhotoChange } from './preview.js';
 
 const MAX_PRICE = 1000000;
 const MIN_DIGITS = 5;
@@ -163,6 +164,7 @@ const onFormSubmitSuccess = () => {
   resetMap();
   resetMainMarker();
   resetAddress();
+  resetPreview();
   removePopup();
   showMessage('success');
 };
@@ -174,6 +176,7 @@ const onResetButtonClick = (evt) => {
   resetMap();
   resetMainMarker();
   resetAddress();
+  resetPreview();
   removePopup();
 };
 
@@ -199,6 +202,8 @@ const addFormHandlers = () => {
   timeoutSelect.addEventListener('change', (evt) => getTimeSelectValue(evt, timeinSelectOptions));
   roomsNumberSelect.addEventListener('change', onRoomsChange);
   guestsNumberSelect.addEventListener('change', onRoomsChange);
+  setAvatarChange();
+  setPhotoChange();
   setFormSubmit();
 };
 

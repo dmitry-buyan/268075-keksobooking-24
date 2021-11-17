@@ -110,4 +110,4 @@ const renderCard = ({author, offer}) => {
   return cardElement;
 };
 
-export { renderCard };
+export { Photos, renderCard };
