@@ -1,4 +1,4 @@
-import { debounce } from './utils/debounce.js';
+import { debounce } from './utils.js';
 
 const MAX_PINS_COUNT = 10;
 const ANY_VALUE = 'any';

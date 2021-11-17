@@ -69,7 +69,7 @@ const resetAddress = () => setAddress(mapOptions.defaultCoords);
 const deactivateForm = () => {
   adForm.classList.add('ad-form--disabled');
   filterForm.classList.add('ad-form--disabled');
-  formsNodes.forEach((node) => node.setAttribute('disabled', ''));
+  formsNodes.forEach((node) => node.disabled = true);
 };
 
 /**
@@ -78,7 +78,7 @@ const deactivateForm = () => {
 const activateForm = () => {
   adForm.classList.remove('ad-form--disabled');
   filterForm.classList.remove('ad-form--disabled');
-  formsNodes.forEach((node) => node.removeAttribute('disabled'));
+  formsNodes.forEach((node) => node.disabled = false);
 };
 
 /**
@@ -153,7 +153,7 @@ const getTimeSelectValue = (evt, options) => {
 
 const resetPrice = () => {
   appartmentPrice.placeholder = appartmentMinPrices.flat;
-  appartmentPrice.setAttribute('min', appartmentMinPrices.flat);
+  appartmentPrice.min = appartmentMinPrices.flat;
 };
 
 const onFormSubmitSuccess = () => {

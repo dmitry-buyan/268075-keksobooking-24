@@ -98,10 +98,10 @@ const renderMarkers = (pins) => {
 };
 
 const removePopup = () => {
-  const popupContainer = document.querySelector('.leaflet-popup-pane');
+  const popupElement = document.querySelector('.leaflet-popup-pane');
 
-  while(popupContainer.firstChild) {
-    popupContainer.removeChild(popupContainer.firstChild);
+  while(popupElement.firstChild) {
+    popupElement.removeChild(popupElement.firstChild);
   }
 };
 
