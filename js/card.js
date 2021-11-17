@@ -34,8 +34,8 @@ const isValue = (value, element) => value || element.remove();
  */
 
 const renderFeatures = (features, popupCard) => {
-  const featuresContainer = popupCard.querySelector('.popup__features');
-  const featuresList = featuresContainer.querySelectorAll('.popup__feature');
+  const featuresElement = popupCard.querySelector('.popup__features');
+  const featuresList = featuresElement.querySelectorAll('.popup__feature');
 
   if (features) {
     featuresList.forEach((featureItem) => {
@@ -47,7 +47,7 @@ const renderFeatures = (features, popupCard) => {
 
     });
   } else {
-    featuresContainer.remove();
+    featuresElement.remove();
   }
 };
 
@@ -57,24 +57,26 @@ const renderFeatures = (features, popupCard) => {
  * @returns innerHTML of photos container
  *
  */
-const renderPhotos = (photos) => {
-  const photosContainer = popup.querySelector('.popup__photos');
-  photosContainer.innerHTML = '';
+const renderPhotos = (photos, popupPhotos) => {
+  const photosElement = popupPhotos.querySelector('.popup__photos');
+  photosElement.innerHTML = '';
   const fragment = document.createDocumentFragment();
 
-  photos.forEach((image) => {
-    const imageElement = document.createElement('img');
-    imageElement.src = image;
-    imageElement.classList.add(Photos.CLASSNAME);
-    imageElement.style.width = Photos.WIDTH;
-    imageElement.style.height = Photos.HEIGHT;
-    imageElement.alt = Photos.ALT;
-    fragment.append(imageElement);
-  });
+  if (photos) {
+    photos.forEach((image) => {
+      const imageElement = document.createElement('img');
+      imageElement.src = image;
+      imageElement.classList.add(Photos.CLASSNAME);
+      imageElement.style.width = Photos.WIDTH;
+      imageElement.style.height = Photos.HEIGHT;
+      imageElement.alt = Photos.ALT;
+      fragment.append(imageElement);
+    });
 
-  photosContainer.append(fragment);
-
-  return photosContainer.innerHTML;
+    photosElement.append(fragment);
+  } else {
+    photosElement.remove();
+  }
 };
 
 /**
@@ -93,7 +95,6 @@ const renderCard = ({author, offer}) => {
   const adCapacity = cardElement.querySelector('.popup__text--capacity');
   const adTime = cardElement.querySelector('.popup__text--time');
   const adDescription = cardElement.querySelector('.popup__description');
-  const adPhotos = cardElement.querySelector('.popup__photos');
 
   adAvatar.src = author.avatar || DEFAULT_AVATAR;
   adTitle.textContent = isValue(offer.title, adTitle);
@@ -104,14 +105,9 @@ const renderCard = ({author, offer}) => {
   adTime.textContent = `${TextLines.CHECKIN} ${offer.checkin}, ${TextLines.CHECKOUT} ${offer.checkout}`;
   adDescription.textContent = isValue(offer.description, adDescription);
   renderFeatures(offer.features, cardElement);
-
-  if (offer.photos) {
-    adPhotos.innerHTML = renderPhotos(offer.photos);
-  } else {
-    adPhotos.classList.add('hidden');
-  }
+  renderPhotos(offer.photos, cardElement);
 
   return cardElement;
 };
 
-export { renderCard };
+export { Photos, renderCard };

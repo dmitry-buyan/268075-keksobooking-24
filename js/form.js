@@ -1,6 +1,7 @@
 import { sendData } from './api.js';
 import { mapOptions, removePopup, resetMainMarker, resetMap } from './map.js';
 import { showMessage } from './popup.js';
+import { resetPreview, setAvatarChange, setPhotoChange } from './preview.js';
 
 const MAX_PRICE = 1000000;
 const MIN_DIGITS = 5;
@@ -69,7 +70,7 @@ const resetAddress = () => setAddress(mapOptions.defaultCoords);
 const deactivateForm = () => {
   adForm.classList.add('ad-form--disabled');
   filterForm.classList.add('ad-form--disabled');
-  formsNodes.forEach((node) => node.setAttribute('disabled', ''));
+  formsNodes.forEach((node) => node.disabled = true);
 };
 
 /**
@@ -78,7 +79,7 @@ const deactivateForm = () => {
 const activateForm = () => {
   adForm.classList.remove('ad-form--disabled');
   filterForm.classList.remove('ad-form--disabled');
-  formsNodes.forEach((node) => node.removeAttribute('disabled'));
+  formsNodes.forEach((node) => node.disabled = false);
 };
 
 /**
@@ -153,7 +154,7 @@ const getTimeSelectValue = (evt, options) => {
 
 const resetPrice = () => {
   appartmentPrice.placeholder = appartmentMinPrices.flat;
-  appartmentPrice.setAttribute('min', appartmentMinPrices.flat);
+  appartmentPrice.min = appartmentMinPrices.flat;
 };
 
 const onFormSubmitSuccess = () => {
@@ -163,6 +164,7 @@ const onFormSubmitSuccess = () => {
   resetMap();
   resetMainMarker();
   resetAddress();
+  resetPreview();
   removePopup();
   showMessage('success');
 };
@@ -174,6 +176,7 @@ const onResetButtonClick = (evt) => {
   resetMap();
   resetMainMarker();
   resetAddress();
+  resetPreview();
   removePopup();
 };
 
@@ -199,6 +202,8 @@ const addFormHandlers = () => {
   timeoutSelect.addEventListener('change', (evt) => getTimeSelectValue(evt, timeinSelectOptions));
   roomsNumberSelect.addEventListener('change', onRoomsChange);
   guestsNumberSelect.addEventListener('change', onRoomsChange);
+  setAvatarChange();
+  setPhotoChange();
   setFormSubmit();
 };
 
